@@ -23,8 +23,6 @@
            android:footerDividersEnabled="false"
            android:headerDividersEnabled="false"
            android:smoothScrollbar="true"
-
-
            ptr:ptrDrawable="@mipmap/ic_launcher"
       />
 

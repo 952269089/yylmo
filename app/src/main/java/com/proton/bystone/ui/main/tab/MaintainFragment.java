@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,7 +19,6 @@ import com.proton.bystone.R;
 
 import com.proton.library.ui.MTFBaseFragment;
 import com.proton.library.ui.annotation.MTFFragmentFeature;
-import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 
@@ -98,7 +96,7 @@ public class MaintainFragment extends MTFBaseFragment  {
     class Listview_two extends BaseAdapter {
         @Override
         public int getCount() {
-            return 15;
+            return 1;
         }
 
         @Override
@@ -113,11 +111,11 @@ public class MaintainFragment extends MTFBaseFragment  {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View vi = View.inflate(getActivity(), R.layout.listviewfist3, null);
+            View vi = View.inflate(getActivity(), R.layout.home_listview, null);
 
-            ImageView image = (ImageView) vi.findViewById(R.id.svrc2);
+            //ImageView image = (ImageView) vi.findViewById(R.id.svrc2);
 
-            Picasso.with(getActivity()).load("https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png").into(image);
+            //Picasso.with(getActivity()).load("https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png").into(image);
 
             return vi;
         }
