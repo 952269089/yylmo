@@ -1,0 +1,33 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.proton.bystone.ui.main.tab.MaintainFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+
+       <com.handmark.pulltorefresh.library.PullToRefreshListView
+           xmlns:ptr="http://schemas.android.com/apk/res-auto"
+           android:id="@+id/list_view"
+           android:descendantFocusability="blocksDescendants"
+           android:layout_width="fill_parent"
+           android:layout_height="fill_parent"
+           android:dividerHeight="4dp"
+           android:fadingEdge="none"
+           android:fastScrollEnabled="false"
+           android:footerDividersEnabled="false"
+           android:headerDividersEnabled="false"
+           android:smoothScrollbar="true"
+
+
+           ptr:ptrDrawable="@mipmap/ic_launcher"
+      />
+
+    </LinearLayout>
+
+</FrameLayout>
