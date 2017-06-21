@@ -1,10 +1,13 @@
 package com.proton.bystone.ui.main.tab;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -14,14 +17,28 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.nostra13.universalimageloader.core.assist.deque.LIFOLinkedBlockingDeque;
 import com.proton.bystone.R;
+import com.proton.bystone.bean.Testd;
+import com.proton.bystone.ui.main.MainActivity;
+import com.proton.bystone.ui.register.registerActivity;
+import com.proton.bystone.utils.UtilsOkHttp;
+import com.proton.bystone.viewpagertest.MainActivityviewpager;
 import com.proton.library.ui.MTFBaseFragment;
 import com.proton.library.ui.annotation.MTFFragmentFeature;
 
+import java.io.LineNumberInputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.Bind;
+
+import static android.app.Activity.RESULT_OK;
 
 
 @MTFFragmentFeature(layout = R.layout.fragment_home)
@@ -29,24 +46,27 @@ public class HomeFragment extends MTFBaseFragment {
     @Bind(R.id.list_view_home)
     PullToRefreshListView list_view;
 
-    ViewPager viewById;
-    GridView gridview;
+    ViewPager vp;
+
+    GridView  gridview;
+    ListView  lv;
     Handler handler = new Handler();
     Runnable update_thread = new Runnable()
     {
         public void run()
         {
-
-            list_view.setAdapter(new HomeFragment.Listview());
+            list_view.setAdapter(new Listview_two());
             list_view.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>()
             {
 
                 @Override
                 public void onRefresh(PullToRefreshBase<ListView> refreshView) {
                     Toast.makeText(getActivity(), "下拉", Toast.LENGTH_SHORT).show();
-                    new HomeFragment.GetDataTask().execute();
+                    new GetDataTask().execute();
+
                 }
             });
+
         }
     };
     public HomeFragment() {
@@ -64,6 +84,14 @@ public class HomeFragment extends MTFBaseFragment {
 
     @Override
     public void initialize() {
+
+        //View ho = LayoutInflater.from(getActivity()).inflate(R.layout.ho_view, null);
+        View ho = LayoutInflater.from(getActivity()).inflate(R.layout.activity_main_viewpager, null);
+        vp=(ViewPager)ho.findViewById(R.id.viewPager);
+        vp.setAdapter(new viewpager_adapter());
+        lv=list_view.getRefreshableView();
+        lv.addHeaderView(ho);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -82,9 +110,74 @@ public class HomeFragment extends MTFBaseFragment {
                 endLabels.setRefreshingLabel("疯狂刷新");// 刷新时
                 endLabels.setReleaseLabel("疯狂刷新");// 下来达到一定距离时，显示的提示
 
+
+                /*
+                 oKHTTP进行封装，到时会后只需要把参数放入
+                 测试一
+                 */
+               /* UtilsOkHttp okhttppost=new UtilsOkHttp();
+                String url="http://172.16.13.2:8080/SpringMVC/HelloController/hello9.json";//这里填入rul
+                Map list = new HashMap();
+                list.put("id",11);
+                list.put("name",222);
+                *//*MainActivity ma=(MainActivity)getActivity();*//*
+
+                okhttppost.OkHttpPost(url, list);*/
+
+
+                /*
+                测试二
+                startActivityForResult
+                 */
+                /*Intent intent=new Intent();
+                intent.setClass(getActivity(), MainActivityviewpager.class);
+                Bundle bundle=new Bundle();
+                String str1="aaaaaa";
+                bundle.putString("str1", str1);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, 0);//这里采用startActivityForResult来做跳转，此处的0为一个依据，可以写其他的值，但一定要>=0
+*/
+                /*
+                测试三
+                 */
+                MainActivity ma=(MainActivity)getActivity();
+                HomeFragment zuce = ma.zuce();
+                zuce.testhown("344343");
+
             }
         }).start();
 
+
+    }
+
+    //TEST测试
+    public  void testhown(String d)
+    {
+        Log.e("DDD",d);
+
+    }
+
+    /**
+     * 测试
+     *
+     *
+     * @param data
+     */
+    public void getdata(String  data)
+    {
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (resultCode) { //resultCode为回传的标记，我在B中回传的是RESULT_OK
+            case RESULT_OK:
+                /*Bundle b=data.getExtras(); //data为B中回传的Intent
+                String str=b.getString("str1");//str即为回传的值*/
+
+                break;
+            default:
+                break;
+        }
     }
 
     // 异步方式模拟请求数据
@@ -109,10 +202,36 @@ public class HomeFragment extends MTFBaseFragment {
             return 0;
         }
     }
-    class Listview extends BaseAdapter {
+    class viewpager_adapter extends PagerAdapter
+    {
         @Override
         public int getCount() {
-            return 1;
+            return 4;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view==object;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            ImageView  Image=new ImageView(getActivity());
+            Image.setImageResource(R.mipmap.eye_gray_1);
+            vp.addView(Image);
+
+            return Image;
+        }
+    }
+
+    class Listview_two extends BaseAdapter {
+        @Override
+        public int getCount() {
+            return 7;
         }
 
         @Override
@@ -128,68 +247,12 @@ public class HomeFragment extends MTFBaseFragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View vi = View.inflate(getActivity(), R.layout.home_listview, null);
-            viewById = (ViewPager)vi.findViewById(R.id.viewPager_home);
-            viewById.setAdapter(new viewpager_adapter());
+
+            ImageView image = (ImageView) vi.findViewById(R.id.home_image);
+
             //Picasso.with(getActivity()).load("https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png").into(image);
 
             return vi;
         }
-
     }
-
-
-    class viewpager_adapter extends PagerAdapter
-    {
-        @Override
-        public int getCount() {
-            return 2;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view==object;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            View vi = View.inflate(getActivity(), R.layout.home_gradview, null);
-            gridview=(GridView)vi.findViewById(R.id.home_gview);
-            gridview.setAdapter(new Gradview_adapter());
-            viewById.addView(gridview);
-            return gridview;
-        }
-    }
-
-    class Gradview_adapter extends BaseAdapter {
-        @Override
-        public int getCount() {
-            return 8;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View vi = View.inflate(getActivity(), R.layout.home_listview_gradview, null);
-            TextView hometitle=(TextView)vi.findViewById(R.id.home_gradview_shoptitle);
-
-
-            return vi;
-        }
-    }
-
-
-
     }

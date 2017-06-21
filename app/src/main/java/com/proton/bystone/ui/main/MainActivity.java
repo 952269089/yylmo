@@ -4,10 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
-
 import com.proton.bystone.R;
+
+import com.proton.bystone.search.MainActivity_Search;
 import com.proton.bystone.ui.main.tab.HomeFragment;
 import com.proton.bystone.ui.main.tab.MaintainFragment;
 import com.proton.bystone.ui.main.tab.MeFragment;
@@ -50,6 +55,9 @@ public class MainActivity extends MTFBaseActivity {
     @Bind(R.id.home_me_layout)
     RelativeLayout meLayout;
 
+    @Bind(R.id.home_search)
+    EditText edtx_search;//搜索
+
     /*@Bind(R.id.home)
     RelativeLayout mehome;*/
 
@@ -76,7 +84,7 @@ public class MainActivity extends MTFBaseActivity {
         fragments = new Fragment[]{homeFragment, maintainFragment, shopFragment, meFragment };
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, homeFragment)
+                .add(R.id.fragment_container, homeFragment,"FRAGMENT_LEFT_MENU")
                 .add(R.id.fragment_container, maintainFragment)
                 .add(R.id.fragment_container, shopFragment)
                 .add(R.id.fragment_container, meFragment)
@@ -87,6 +95,15 @@ public class MainActivity extends MTFBaseActivity {
         //layout
         layouts = new RelativeLayout[]{homeLayout, maintainLayout, shopLayout, meLayout};
         layouts[0].setBackgroundColor(getResources().getColor(R.color.mtf_gray_700));
+
+        //搜索
+        edtx_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent  intent=new Intent(MainActivity.this,MainActivity_Search.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -129,13 +146,15 @@ public class MainActivity extends MTFBaseActivity {
             currentIndex = index;
         }
     }
-
-   public  void zuce()
+//测试
+   public  HomeFragment zuce()
     {
-        System.out.println("1234");
-
-        startActivity(new Intent(MainActivity.this,registerActivity.class));
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        HomeFragment homeFragment =(HomeFragment) supportFragmentManager.findFragmentByTag("FRAGMENT_LEFT_MENU");
+        return homeFragment;
 
     }
+
+
 
 }

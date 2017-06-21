@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,6 +29,8 @@ public class MaintainFragment extends MTFBaseFragment  {
 
      @Bind(R.id.list_view)
      PullToRefreshListView list_view;
+
+
 
     Handler handler = new Handler();
     Runnable update_thread = new Runnable()
@@ -111,9 +114,9 @@ public class MaintainFragment extends MTFBaseFragment  {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View vi = View.inflate(getActivity(), R.layout.home_listview, null);
+            View vi = View.inflate(getActivity(), R.layout.home_pulltorefreshlistview, null);
 
-            //ImageView image = (ImageView) vi.findViewById(R.id.svrc2);
+            ImageView image = (ImageView) vi.findViewById(R.id.home_image);
 
             //Picasso.with(getActivity()).load("https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png").into(image);
 

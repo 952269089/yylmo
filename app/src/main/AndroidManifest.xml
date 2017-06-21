@@ -24,6 +24,9 @@
         <activity android:name=".ui.register.registerActivity" />
         <activity android:name=".viewpagertest.MainActivityviewpager" />
         <activity android:name=".HorizontalScrollMenu.MainActivity_hh" />
+
+        <activity android:name=".search.MainActivity_Search" />
+
     </application>
 
 </manifest>

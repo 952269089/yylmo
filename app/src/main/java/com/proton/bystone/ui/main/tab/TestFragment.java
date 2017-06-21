@@ -14,6 +14,8 @@ import com.proton.library.ui.annotation.MTFFragmentFeature;
  * to handle interaction events.
  * Use the {@link TestFragment#newInstance} factory method to
  * create an instance of this fragment.
+ *
+ *
  * 废弃不用
  */
 @MTFFragmentFeature(layout = R.layout.fragment_shop)

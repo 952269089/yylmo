@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
@@ -20,6 +22,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.proton.bystone.R;
+import com.proton.bystone.ui.main.MainActivity;
 
 public class MainActivityviewpager extends Activity {
 
@@ -123,6 +126,20 @@ public class MainActivityviewpager extends Activity {
 		dots[2] = dot2;
 		dots[3] = dot3;
 		dot0.setSelected(true);
+
+
+		//测试onActivityResult
+		Button bt = (Button) findViewById(R.id.textView);
+		bt.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent();
+				intent.putExtra("OK", "OKOK");
+				setResult(RESULT_OK, intent);
+
+				finish();
+			}
+		});
 	}
 
 	private void setListener() {
